@@ -15,6 +15,7 @@ import {
 } from 'lucide-react';
 import { SCHOOL_INFO } from '../data/schoolData';
 import { PageId } from '../components/Navbar';
+import { SchoolLogo } from '../components/SchoolLogo';
 
 interface AboutPageProps {
   onNavigate: (page: PageId) => void;
@@ -26,17 +27,29 @@ export const AboutPage: React.FC<AboutPageProps> = ({ onNavigate, onOpenAdmissio
     <div className="space-y-12 sm:space-y-16 pb-16">
       {/* Page Header */}
       <section className="bg-gradient-to-r from-blue-950 via-slate-900 to-indigo-950 text-white py-12 sm:py-16">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center sm:text-left">
-          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-blue-800/80 border border-blue-600/50 text-xs font-semibold text-amber-300 mb-3">
-            <School className="w-3.5 h-3.5" />
-            <span>Know Our Institution</span>
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col md:flex-row items-center justify-between gap-6">
+          <div>
+            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-blue-800/80 border border-blue-600/50 text-xs font-semibold text-amber-300 mb-3">
+              <School className="w-3.5 h-3.5" />
+              <span>School Code: {SCHOOL_INFO.schoolCode} • Estd. {SCHOOL_INFO.established}</span>
+            </div>
+            <h1 className="text-3xl sm:text-4xl lg:text-5xl font-extrabold text-white tracking-tight mb-2 uppercase">
+              About {SCHOOL_INFO.name}
+            </h1>
+            <p className="text-amber-300 font-semibold text-sm mb-3">
+              Motto: "{SCHOOL_INFO.motto}" • Sehada, Azamgarh, Uttar Pradesh
+            </p>
+            <p className="text-slate-300 text-sm sm:text-base max-w-2xl leading-relaxed">
+              Founded with the noble mission to impart quality, affordable, and value-based disciplined education to the youth of Sehada, Azamgarh, and surrounding Purvanchal regions.
+            </p>
           </div>
-          <h1 className="text-3xl sm:text-4xl lg:text-5xl font-extrabold text-white tracking-tight mb-3">
-            About Sri Durga Ji Public School
-          </h1>
-          <p className="text-slate-300 text-sm sm:text-base max-w-2xl leading-relaxed">
-            Founded with the noble mission to impart quality, affordable, and value-based education to the youth of Sehada, Azamgarh, and surrounding Purvanchal regions.
-          </p>
+
+          <div className="shrink-0 bg-white/10 p-3 rounded-2xl border border-white/20 backdrop-blur-xs flex flex-col items-center">
+            <SchoolLogo size="lg" />
+            <span className="text-[11px] font-bold uppercase tracking-wider text-amber-300 mt-2">
+              Official Insignia
+            </span>
+          </div>
         </div>
       </section>
 
@@ -46,19 +59,19 @@ export const AboutPage: React.FC<AboutPageProps> = ({ onNavigate, onOpenAdmissio
           <div className="lg:col-span-7 space-y-4">
             <div className="inline-flex items-center gap-2 text-blue-800 font-bold text-xs uppercase tracking-wider">
               <span className="w-2 h-2 rounded-full bg-blue-700"></span>
-              <span>Heritage & Foundation</span>
+              <span>Heritage & Foundation • Code: {SCHOOL_INFO.schoolCode}</span>
             </div>
             <h2 className="text-2xl sm:text-3xl font-bold text-slate-900 leading-snug">
-              A Beacon of Knowledge in Sehada, Azamgarh
+              A Beacon of Knowledge & Discipline in Sehada, Azamgarh
             </h2>
             <p className="text-slate-600 text-sm sm:text-base leading-relaxed">
-              <strong>Sri Durga Ji Public School</strong> was founded in 2002 by visionary educationists who perceived the urgent necessity for a premier English medium, value-oriented school in the Sehada region of Azamgarh district, Uttar Pradesh.
+              <strong>{SCHOOL_INFO.name}</strong> was founded in 2002 by visionary educationists who perceived the urgent necessity for a premier English medium, value-oriented school in the Sehada region of Azamgarh district, Uttar Pradesh.
             </p>
             <p className="text-slate-600 text-sm leading-relaxed">
               Over the last two decades, the institution has flourished into a vibrant learning community with more than 1,500 students from pre-primary through senior grades. Our lush, expansive campus shields children from urban congestion, providing an ideal atmosphere for rigorous academic inquiry, sports training, and character cultivation.
             </p>
             <p className="text-slate-600 text-sm leading-relaxed">
-              We take pride in maintaining an admirable academic record with 100% board examination pass rates, while cultivating humility, social respect, and civic consciousness embodied by our school motto: <em>"Vidya Dadati Vinayam"</em>.
+              We take pride in maintaining an admirable academic record with 100% board examination pass rates, while cultivating humility, social respect, and civic consciousness embodied by our school motto: <strong>"{SCHOOL_INFO.motto}"</strong>.
             </p>
 
             <div className="pt-2 flex flex-wrap gap-4">
@@ -80,13 +93,21 @@ export const AboutPage: React.FC<AboutPageProps> = ({ onNavigate, onOpenAdmissio
           <div className="lg:col-span-5">
             <div className="relative rounded-2xl overflow-hidden shadow-lg border border-slate-200 bg-slate-100">
               <img
-                src="https://images.unsplash.com/photo-1541829070764-84a7d30dd3f3?auto=format&fit=crop&w=800&q=80"
+                src="/images/school_campus_front.jpg"
                 alt="Sri Durga Ji Public School Sehada Campus"
                 className="w-full h-80 sm:h-96 object-cover"
+                referrerPolicy="no-referrer"
               />
               <div className="p-4 bg-white border-t border-slate-200">
-                <h4 className="font-bold text-sm text-slate-900">Green Peaceful Campus</h4>
-                <p className="text-xs text-slate-500">Sehada, Bilariaganj Road, Azamgarh, Uttar Pradesh</p>
+                <div className="flex items-center justify-between">
+                  <div>
+                    <h4 className="font-bold text-sm text-slate-900">Official School Campus & Ground</h4>
+                    <p className="text-xs text-slate-500">Sehada, Bilariaganj Road, Azamgarh (U.P.)</p>
+                  </div>
+                  <span className="px-2 py-0.5 rounded text-[10px] font-bold bg-amber-100 text-amber-900 border border-amber-300">
+                    Verified Campus
+                  </span>
+                </div>
               </div>
             </div>
           </div>

@@ -92,13 +92,20 @@ export const GalleryPage: React.FC<GalleryPageProps> = ({ onNavigate, onOpenAdmi
                   src={item.imageUrl}
                   alt={item.title}
                   className="w-full h-full object-cover group-hover:scale-106 transition-transform duration-300"
+                  referrerPolicy="no-referrer"
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-slate-950/80 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity"></div>
 
-                <div className="absolute top-3 left-3">
+                <div className="absolute top-3 left-3 flex items-center gap-1.5 flex-wrap">
                   <span className="px-2 py-0.5 rounded-md bg-blue-900/90 text-white text-[10px] font-bold uppercase tracking-wider backdrop-blur-xs">
                     {item.category}
                   </span>
+                  {item.isOriginal && (
+                    <span className="px-2 py-0.5 rounded-md bg-amber-400 text-slate-950 text-[10px] font-bold uppercase tracking-wider backdrop-blur-xs flex items-center gap-1 shadow-sm">
+                      <Sparkles className="w-2.5 h-2.5" />
+                      <span>Verified Campus</span>
+                    </span>
+                  )}
                 </div>
 
                 <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
@@ -160,6 +167,7 @@ export const GalleryPage: React.FC<GalleryPageProps> = ({ onNavigate, onOpenAdmi
                 src={filteredItems[activeImageIndex].imageUrl}
                 alt={filteredItems[activeImageIndex].title}
                 className="max-h-[70vh] w-auto max-w-full object-contain mx-auto select-none"
+                referrerPolicy="no-referrer"
               />
 
               {/* Prev Button */}
@@ -183,9 +191,17 @@ export const GalleryPage: React.FC<GalleryPageProps> = ({ onNavigate, onOpenAdmi
 
             {/* Bottom Caption */}
             <div className="p-4 bg-slate-950 text-white border-t border-slate-800">
-              <h4 className="font-bold text-base text-white">
-                {filteredItems[activeImageIndex].title}
-              </h4>
+              <div className="flex items-center gap-2 mb-1 flex-wrap">
+                <h4 className="font-bold text-base text-white">
+                  {filteredItems[activeImageIndex].title}
+                </h4>
+                {filteredItems[activeImageIndex].isOriginal && (
+                  <span className="px-2 py-0.5 rounded bg-amber-400 text-slate-950 text-[10px] font-bold uppercase tracking-wider inline-flex items-center gap-1 shadow-xs">
+                    <Sparkles className="w-2.5 h-2.5" />
+                    <span>Verified Campus Photograph</span>
+                  </span>
+                )}
+              </div>
               <p className="text-xs text-slate-400 mt-1">
                 {filteredItems[activeImageIndex].caption}
               </p>

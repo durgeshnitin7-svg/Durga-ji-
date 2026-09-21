@@ -14,6 +14,7 @@ import {
 } from 'lucide-react';
 import { SCHOOL_INFO } from '../data/schoolData';
 import { PageId } from '../components/Navbar';
+import { SchoolLogo } from '../components/SchoolLogo';
 
 interface ContactPageProps {
   onNavigate: (page: PageId) => void;
@@ -78,9 +79,17 @@ export const ContactPage: React.FC<ContactPageProps> = ({ onNavigate, onOpenAdmi
           {/* Left Column: Contact Cards & Office Details */}
           <div className="lg:col-span-5 space-y-6">
             <div className="bg-white p-6 rounded-2xl border border-slate-200 shadow-xs space-y-6">
-              <h2 className="text-xl font-bold text-slate-900 pb-3 border-b border-slate-100">
-                School Contact Directory
-              </h2>
+              <div className="flex items-center gap-3 pb-3 border-b border-slate-100">
+                <SchoolLogo size="sm" className="shrink-0" />
+                <div>
+                  <h2 className="text-lg font-extrabold text-slate-900 leading-tight uppercase">
+                    {SCHOOL_INFO.name}
+                  </h2>
+                  <p className="text-xs text-amber-600 font-semibold">
+                    School Code: {SCHOOL_INFO.schoolCode} • Sehada, Azamgarh
+                  </p>
+                </div>
+              </div>
 
               {/* Address */}
               <div className="flex items-start gap-4">

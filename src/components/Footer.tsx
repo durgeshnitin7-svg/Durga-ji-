@@ -12,6 +12,7 @@ import {
   Heart
 } from 'lucide-react';
 import { SCHOOL_INFO } from '../data/schoolData';
+import { SchoolLogo } from './SchoolLogo';
 import { PageId } from './Navbar';
 
 interface FooterProps {
@@ -67,27 +68,27 @@ export const Footer: React.FC<FooterProps> = ({ onNavigate, onOpenAdmissionModal
           {/* Col 1: School Identity */}
           <div className="space-y-4">
             <div className="flex items-center gap-3">
-              <div className="w-12 h-12 rounded-xl bg-blue-900 text-amber-300 flex items-center justify-center font-display font-bold text-xl border border-amber-400/40">
-                SDJ
-              </div>
+              <SchoolLogo size="sm" className="shrink-0" />
               <div>
-                <h4 className="font-bold text-white text-base leading-tight">
-                  Sri Durga Ji Public School
+                <h4 className="font-extrabold text-white text-base leading-tight uppercase">
+                  {SCHOOL_INFO.name}
                 </h4>
-                <p className="text-xs text-amber-400 font-medium">
-                  Sehada, Azamgarh (U.P.)
+                <p className="text-xs text-amber-400 font-semibold">
+                  School Code: {SCHOOL_INFO.schoolCode} • Sehada, Azamgarh
                 </p>
               </div>
             </div>
 
             <p className="text-xs text-slate-400 leading-relaxed">
-              Established with a steadfast commitment to bringing holistic, high-standard schooling to the children of Sehada, Azamgarh, and nearby rural and semi-urban communities.
+              Established with a steadfast commitment to bringing disciplined, value-rich, and high-standard schooling to the children of Sehada, Azamgarh, and Purvanchal.
             </p>
 
             <div className="bg-slate-900/90 border border-slate-800 rounded-lg p-3 text-xs">
-              <div className="text-amber-400 font-semibold mb-1">School Motto:</div>
-              <div className="italic text-slate-300 font-serif">"{SCHOOL_INFO.motto}"</div>
-              <div className="text-[11px] text-slate-500 mt-1">Education Bestows Humility</div>
+              <div className="text-amber-400 font-semibold mb-0.5">School Motto:</div>
+              <div className="font-bold text-white tracking-wide uppercase text-xs">
+                "{SCHOOL_INFO.motto}"
+              </div>
+              <div className="text-[11px] text-slate-400 mt-1">CBSE Affiliation / School Code: {SCHOOL_INFO.schoolCode}</div>
             </div>
           </div>
 

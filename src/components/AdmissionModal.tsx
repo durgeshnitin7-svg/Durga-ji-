@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
-import { X, CheckCircle2, Phone, Mail, User, School, MapPin, Send, AlertCircle } from 'lucide-react';
+import { X, CheckCircle2, Phone, Mail, User, School, MapPin, Send, AlertCircle, Award } from 'lucide-react';
 import { SCHOOL_INFO } from '../data/schoolData';
+import { SchoolLogo } from './SchoolLogo';
 
 interface AdmissionModalProps {
   isOpen: boolean;
@@ -60,17 +61,20 @@ export const AdmissionModal: React.FC<AdmissionModalProps> = ({ isOpen, onClose 
         aria-labelledby="admission-modal-title"
       >
         {/* Header */}
-        <div className="bg-gradient-to-r from-blue-900 via-blue-800 to-indigo-900 text-white px-6 py-5 flex items-center justify-between">
+        <div className="bg-gradient-to-r from-blue-950 via-blue-900 to-indigo-950 text-white px-6 py-4 flex items-center justify-between">
           <div className="flex items-center gap-3">
-            <div className="w-10 h-10 rounded-xl bg-white/10 flex items-center justify-center border border-white/20">
-              <School className="w-5 h-5 text-amber-300" />
-            </div>
+            <SchoolLogo size="sm" className="shrink-0" />
             <div>
-              <h2 id="admission-modal-title" className="text-xl font-bold tracking-tight">
-                Online Admission Enquiry
-              </h2>
+              <div className="flex items-center gap-2">
+                <h2 id="admission-modal-title" className="text-lg sm:text-xl font-bold tracking-tight">
+                  Online Admission Enquiry
+                </h2>
+                <span className="hidden sm:inline-block px-2 py-0.5 rounded bg-amber-400 text-slate-950 text-[10px] font-bold">
+                  Code: {SCHOOL_INFO.schoolCode}
+                </span>
+              </div>
               <p className="text-xs text-blue-200">
-                Academic Session 2025–26 & 2026–27 | {SCHOOL_INFO.name}, Sehada
+                Session 2025–26 & 2026–27 | {SCHOOL_INFO.name}, Sehada
               </p>
             </div>
           </div>

@@ -30,6 +30,7 @@ import {
   SCHOOL_STATS 
 } from '../data/schoolData';
 import { PageId } from '../components/Navbar';
+import { SchoolLogo } from '../components/SchoolLogo';
 
 interface HomePageProps {
   onNavigate: (page: PageId) => void;
@@ -55,19 +56,23 @@ export const HomePage: React.FC<HomePageProps> = ({ onNavigate, onOpenAdmissionM
             {/* Left Hero Content */}
             <div className="lg:col-span-7 space-y-6 text-center lg:text-left">
               {/* Pill badge */}
-              <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-blue-800/80 border border-blue-600/50 text-xs font-semibold text-amber-300 shadow-xs">
+              <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-blue-800/80 border border-blue-600/50 text-xs font-semibold text-amber-300 shadow-xs flex-wrap justify-center lg:justify-start">
                 <Sparkles className="w-3.5 h-3.5 text-amber-300" />
-                <span>Admissions Open for 2025–26 & 2026–27 (Nursery to Class XI)</span>
+                <span>Admissions Open 2025–26</span>
+                <span className="text-blue-400">•</span>
+                <span className="text-white">School Code: {SCHOOL_INFO.schoolCode}</span>
+                <span className="text-blue-400">•</span>
+                <span className="text-amber-200">Motto: {SCHOOL_INFO.motto}</span>
               </div>
 
               {/* Main Headline */}
               <div className="space-y-2">
-                <h1 className="text-3xl sm:text-5xl lg:text-6xl font-extrabold tracking-tight text-white leading-tight">
-                  Sri Durga Ji <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-200 via-sky-300 to-amber-200">Public School</span>
+                <h1 className="text-3xl sm:text-5xl lg:text-6xl font-extrabold tracking-tight text-white leading-tight uppercase">
+                  Shri Durga Ji <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-200 via-sky-300 to-amber-200">Public School</span>
                 </h1>
-                <p className="text-lg sm:text-2xl font-medium text-amber-300/90 flex items-center justify-center lg:justify-start gap-2">
+                <p className="text-base sm:text-xl font-medium text-amber-300/95 flex items-center justify-center lg:justify-start gap-2">
                   <MapPin className="w-5 h-5 text-amber-400 shrink-0" />
-                  <span>Sehada, Azamgarh, Uttar Pradesh</span>
+                  <span>Sehada, Azamgarh, Uttar Pradesh - 276125</span>
                 </p>
               </div>
 
@@ -121,28 +126,30 @@ export const HomePage: React.FC<HomePageProps> = ({ onNavigate, onOpenAdmissionM
               <div className="relative mx-auto max-w-md lg:max-w-none">
                 <div className="relative rounded-2xl overflow-hidden shadow-2xl border-4 border-white/10 bg-slate-800">
                   <img
-                    src="https://images.unsplash.com/photo-1541829070764-84a7d30dd3f3?auto=format&fit=crop&w=1000&q=80"
+                    src="/images/school_campus_front.jpg"
                     alt="Sri Durga Ji Public School Campus"
                     className="w-full h-80 sm:h-96 object-cover"
+                    referrerPolicy="no-referrer"
                   />
                   <div className="absolute inset-0 bg-gradient-to-t from-slate-950 via-slate-950/40 to-transparent"></div>
                   
-                  {/* Floating Overlay Badge */}
-                  <div className="absolute bottom-4 left-4 right-4 bg-white/95 backdrop-blur-md rounded-xl p-4 text-slate-800 shadow-lg border border-white">
-                    <div className="flex items-center justify-between">
-                      <div>
-                        <span className="text-[11px] font-bold uppercase tracking-wider text-blue-800 block">
-                          Estd. 2002 • 22+ Years of Excellence
+                  {/* Floating Overlay Badge with School Logo */}
+                  <div className="absolute bottom-4 left-4 right-4 bg-white/95 backdrop-blur-md rounded-xl p-3 sm:p-4 text-slate-800 shadow-lg border border-white">
+                    <div className="flex items-center gap-3">
+                      <SchoolLogo size="sm" className="shrink-0" />
+                      <div className="min-w-0 flex-1">
+                        <span className="text-[10px] sm:text-[11px] font-bold uppercase tracking-wider text-blue-800 block truncate">
+                          Code: {SCHOOL_INFO.schoolCode} • Motto: {SCHOOL_INFO.motto}
                         </span>
-                        <h4 className="font-bold text-sm sm:text-base text-slate-900">
-                          Sri Durga Ji Public School
+                        <h4 className="font-extrabold text-xs sm:text-sm text-slate-900 truncate uppercase">
+                          {SCHOOL_INFO.name}
                         </h4>
-                        <p className="text-xs text-slate-600">
+                        <p className="text-[11px] text-slate-600 truncate">
                           Sehada, Bilariaganj Road, Azamgarh (U.P.)
                         </p>
                       </div>
-                      <div className="w-10 h-10 rounded-lg bg-blue-100 text-blue-800 flex items-center justify-center shrink-0">
-                        <Award className="w-5 h-5 text-blue-700" />
+                      <div className="w-8 h-8 sm:w-9 sm:h-9 rounded-lg bg-blue-100 text-blue-800 flex items-center justify-center shrink-0">
+                        <Award className="w-4 h-4 text-blue-700" />
                       </div>
                     </div>
                   </div>
@@ -456,13 +463,22 @@ export const HomePage: React.FC<HomePageProps> = ({ onNavigate, onOpenAdmissionM
                 src={item.imageUrl}
                 alt={item.title}
                 className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+                referrerPolicy="no-referrer"
               />
               <div className="absolute inset-0 bg-gradient-to-t from-slate-950/80 via-slate-950/20 to-transparent opacity-90 group-hover:opacity-100 transition-opacity"></div>
               
               <div className="absolute bottom-3 left-3 right-3 text-white">
-                <span className="text-[10px] font-semibold uppercase tracking-wider px-2 py-0.5 rounded bg-blue-600/90 text-white inline-block mb-1">
-                  {item.category}
-                </span>
+                <div className="flex items-center gap-1.5 mb-1 flex-wrap">
+                  <span className="text-[10px] font-semibold uppercase tracking-wider px-2 py-0.5 rounded bg-blue-600/90 text-white inline-block">
+                    {item.category}
+                  </span>
+                  {item.isOriginal && (
+                    <span className="text-[10px] font-bold uppercase tracking-wider px-2 py-0.5 rounded bg-amber-400 text-slate-950 inline-flex items-center gap-1 shadow-xs">
+                      <Sparkles className="w-2.5 h-2.5 text-slate-950" />
+                      <span>Verified Photo</span>
+                    </span>
+                  )}
+                </div>
                 <h4 className="font-medium text-xs sm:text-sm text-white line-clamp-1">
                   {item.title}
                 </h4>

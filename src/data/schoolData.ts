@@ -1,11 +1,13 @@
 export interface SchoolInfo {
   name: string;
+  hindiName?: string;
   tagline: string;
   motto: string;
   affiliation: string;
   affiliationNumber: string;
   schoolCode: string;
   established: string;
+  logoUrl: string;
   address: {
     street: string;
     village: string;
@@ -59,6 +61,7 @@ export interface GalleryItem {
   category: 'Campus' | 'Classroom' | 'Events' | 'Activities' | 'Sports';
   imageUrl: string;
   caption: string;
+  isOriginal?: boolean;
 }
 
 export interface AcademicProgram {
@@ -72,20 +75,22 @@ export interface AcademicProgram {
 }
 
 export const SCHOOL_INFO: SchoolInfo = {
-  name: "Sri Durga Ji Public School",
-  tagline: "Nurturing Minds, Building Character, Inspiring Excellence",
-  motto: "Vidya Dadati Vinayam (Education Bestows Humility)",
+  name: "Shri Durga Ji Public School",
+  hindiName: "श्री दुर्गा जी पब्लिक स्कूल, सेहदा, आज़मगढ़",
+  tagline: "Discipline and Justice • Excellence in Education",
+  motto: "Discipline and Justice",
   affiliation: "Affiliated to Central Board of Secondary Education (CBSE), New Delhi",
-  affiliationNumber: "CBSE/AFF/2130000 (Demo)",
-  schoolCode: "71000",
+  affiliationNumber: "CBSE/AFF/70171",
+  schoolCode: "70171",
   established: "2002",
+  logoUrl: "/images/school_logo.jpg",
   address: {
     street: "Sehada-Bilariaganj Road",
     village: "Sehada",
     district: "Azamgarh",
     state: "Uttar Pradesh",
     pincode: "276125",
-    fullAddress: "Sri Durga Ji Public School, Sehada, Azamgarh, Uttar Pradesh - 276125"
+    fullAddress: "Shri Durga Ji Public School, Sehada, Azamgarh, Uttar Pradesh - 276125"
   },
   phones: ["+91 94500 12345", "+91 98380 67890", "+91 5462 250123"],
   emails: ["info@sdjpublicschool.edu.in", "admissions@sdjpublicschool.edu.in", "principal@sdjpublicschool.edu.in"],
@@ -186,8 +191,8 @@ export const FACILITIES: Facility[] = [
     shortDesc: "Multi-sport outdoor grounds for Cricket, Football, Volleyball, Badminton, and dedicated primary play area.",
     fullDesc: "Physical fitness is integral to education. Our vast campus boasts specialized pitches, athletic running tracks, and trained Physical Education instructors organizing inter-house tournaments and yoga sessions.",
     iconName: "Trophy",
-    imageUrl: "https://images.unsplash.com/photo-1576610616656-d3aa5d1f4534?auto=format&fit=crop&w=800&q=80",
-    highlights: ["Full-size Cricket pitch and Football ground", "Volleyball & Badminton court enclosures", "Safe playground equipment for pre-primary toddlers", "Morning yoga, PT drill, and martial arts training"]
+    imageUrl: "/images/school_sports.jpg",
+    highlights: ["Volleyball & Badminton court enclosures", "Full-size athletic grounds and playground", "Morning PT drill, yoga, and team sports", "Trained Physical Education faculty coaches"]
   },
   {
     id: "fac-transport",
@@ -213,8 +218,17 @@ export const FACILITIES: Facility[] = [
     shortDesc: "Complete boundary walls, round-the-clock security guards, CCTV surveillance, and sound emergency protocols.",
     fullDesc: "A secure environment allows learning without anxiety. The entire campus is monitored through high-definition CCTV cameras, manned gates with visitor registers, and comprehensive fire-safety measures.",
     iconName: "ShieldCheck",
-    imageUrl: "https://images.unsplash.com/photo-1588072432836-e10032774350?auto=format&fit=crop&w=800&q=80",
-    highlights: ["Over 48 CCTV cameras covering all corridors and gates", "Trained round-the-clock security personnel", "Strict visitor check-in & gate-pass system", "First-aid medical infirmary with qualified nurse"]
+    imageUrl: "/images/school_campus_front.jpg",
+    highlights: ["Over 48 CCTV cameras covering all corridors and gates", "Trained round-the-clock security personnel", "Strict visitor check-in & gate-pass system", "Boundary wall enclosed secure 5-acre campus"]
+  },
+  {
+    id: "fac-solar-green",
+    title: "Green Campus & Solar Power Infrastructure",
+    shortDesc: "Eco-friendly campus with lush palm gardens, flowering courtyards, and clean rooftop solar energy systems.",
+    fullDesc: "Shri Durga Ji Public School champions environmental consciousness. Our premises feature lush tree-lined lawns, open-air assembly spaces, and a heavy-duty rooftop solar panel system providing clean, renewable electricity across all classrooms.",
+    iconName: "Sparkles",
+    imageUrl: "/images/school_garden.jpg",
+    highlights: ["Rooftop grid-connected solar power array", "Lush manicured central lawns and palm avenues", "Eco-club tree plantation and recycling initiatives", "Open-air morning assembly amphitheater grounds"]
   }
 ];
 
@@ -344,10 +358,27 @@ export const FACULTY_MEMBERS: FacultyMember[] = [
 export const GALLERY_ITEMS: GalleryItem[] = [
   {
     id: "gal-1",
-    title: "School Main Campus & Administrative Block",
+    title: "Main Campus Building & Playgrounds",
     category: "Campus",
-    imageUrl: "https://images.unsplash.com/photo-1541829070764-84a7d30dd3f3?auto=format&fit=crop&w=800&q=80",
-    caption: "Front view of Sri Durga Ji Public School campus in Sehada, Azamgarh surrounded by lush green grounds."
+    imageUrl: "/images/school_campus_front.jpg",
+    caption: "Authentic view of Sri Durga Ji Public School, Sehada, Azamgarh, showcasing the signature two-storey arched colonnades and spacious open sports ground.",
+    isOriginal: true
+  },
+  {
+    id: "gal-sports-volleyball",
+    title: "Students Playing Volleyball on School Ground",
+    category: "Sports",
+    imageUrl: "/images/school_sports.jpg",
+    caption: "Students in school uniform playing volleyball with physical education teachers refereeing on the expansive front playground.",
+    isOriginal: true
+  },
+  {
+    id: "gal-campus-garden",
+    title: "Campus Garden Courtyard & Solar Rooftop",
+    category: "Campus",
+    imageUrl: "/images/school_garden.jpg",
+    caption: "Aerial view of the lush green campus lawn, ornamental palm trees, prayer assembly area, and rooftop solar power panels.",
+    isOriginal: true
   },
   {
     id: "gal-2",
