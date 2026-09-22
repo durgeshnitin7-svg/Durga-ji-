@@ -74,6 +74,23 @@ export interface AcademicProgram {
   subjects: string[];
 }
 
+export type EnquiryStatus = 'Pending' | 'Contacted' | 'Admitted' | 'Rejected';
+
+export interface AdmissionEnquiry {
+  id: string;
+  referenceId: string;
+  studentName: string;
+  parentName: string;
+  grade: string;
+  phone: string;
+  email?: string;
+  address?: string;
+  message?: string;
+  status: EnquiryStatus;
+  createdAt: string;
+  adminNotes?: string;
+}
+
 export const SCHOOL_INFO: SchoolInfo = {
   name: "Shri Durga Ji Public School",
   hindiName: "श्री दुर्गा जी पब्लिक स्कूल, सेहदा, आज़मगढ़",
@@ -92,8 +109,8 @@ export const SCHOOL_INFO: SchoolInfo = {
     pincode: "276125",
     fullAddress: "Shri Durga Ji Public School, Sehada, Azamgarh, Uttar Pradesh - 276125"
   },
-  phones: ["+91 94500 12345", "+91 98380 67890", "+91 5462 250123"],
-  emails: ["info@sdjpublicschool.edu.in", "admissions@sdjpublicschool.edu.in", "principal@sdjpublicschool.edu.in"],
+  phones: ["+91 94526 17188", "9452617188"],
+  emails: ["sdjic118@gmail.com"],
   officeHours: "Monday to Saturday: 8:00 AM – 3:30 PM",
   visitingHours: "Parent Visiting Hours: 1:30 PM – 3:00 PM",
   principalName: "Dr. R. K. Mishra",

@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { X, CheckCircle2, Phone, Mail, User, School, MapPin, Send, AlertCircle, Award } from 'lucide-react';
-import { SCHOOL_INFO } from '../data/schoolData';
+import { useSchoolData } from '../context/SchoolDataContext';
 import { SchoolLogo } from './SchoolLogo';
 
 interface AdmissionModalProps {
@@ -9,6 +9,8 @@ interface AdmissionModalProps {
 }
 
 export const AdmissionModal: React.FC<AdmissionModalProps> = ({ isOpen, onClose }) => {
+  const { schoolInfo, addEnquiry } = useSchoolData();
+
   const [formData, setFormData] = useState({
     studentName: '',
     parentName: '',
@@ -33,8 +35,16 @@ export const AdmissionModal: React.FC<AdmissionModalProps> = ({ isOpen, onClose 
     }
 
     setErrorMsg('');
-    const randomRef = 'SDJ-' + Math.floor(100000 + Math.random() * 900000);
-    setReferenceId(randomRef);
+    const newRef = addEnquiry({
+      studentName: formData.studentName.trim(),
+      parentName: formData.parentName.trim(),
+      grade: formData.grade,
+      phone: formData.phone.trim(),
+      email: formData.email.trim() || undefined,
+      address: formData.address.trim() || undefined,
+      message: formData.message.trim() || undefined
+    });
+    setReferenceId(newRef);
     setIsSubmitted(true);
   };
 
@@ -70,11 +80,11 @@ export const AdmissionModal: React.FC<AdmissionModalProps> = ({ isOpen, onClose 
                   Online Admission Enquiry
                 </h2>
                 <span className="hidden sm:inline-block px-2 py-0.5 rounded bg-amber-400 text-slate-950 text-[10px] font-bold">
-                  Code: {SCHOOL_INFO.schoolCode}
+                  Code: {schoolInfo.schoolCode}
                 </span>
               </div>
               <p className="text-xs text-blue-200">
-                Session 2025–26 & 2026–27 | {SCHOOL_INFO.name}, Sehada
+                Session 2025–26 & 2026–27 | {schoolInfo.name}, Sehada
               </p>
             </div>
           </div>
@@ -98,7 +108,7 @@ export const AdmissionModal: React.FC<AdmissionModalProps> = ({ isOpen, onClose 
                 Enquiry Submitted Successfully!
               </h3>
               <p className="text-slate-600 max-w-md mx-auto mb-6 text-sm">
-                Thank you for showing interest in <strong>{SCHOOL_INFO.name}</strong>, Sehada, Azamgarh. Our admissions desk will contact you within 24 business hours.
+                Thank you for showing interest in <strong>{schoolInfo.name}</strong>, Sehada, Azamgarh. Our admissions desk will contact you within 24 business hours.
               </p>
 
               <div className="bg-blue-50 border border-blue-200 rounded-xl p-4 max-w-md mx-auto mb-6 text-left">
@@ -123,7 +133,7 @@ export const AdmissionModal: React.FC<AdmissionModalProps> = ({ isOpen, onClose 
                   Done & Close
                 </button>
                 <a
-                  href={`tel:${SCHOOL_INFO.phones[0]}`}
+                  href={`tel:${schoolInfo.phones[0]}`}
                   className="px-6 py-2.5 bg-slate-100 hover:bg-slate-200 text-slate-700 rounded-lg text-sm font-medium transition-colors inline-flex items-center gap-2"
                 >
                   <Phone className="w-4 h-4 text-blue-700" />

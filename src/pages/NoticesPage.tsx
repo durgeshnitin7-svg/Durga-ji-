@@ -13,7 +13,8 @@ import {
   ChevronUp,
   Share2
 } from 'lucide-react';
-import { NOTICES, Notice, SCHOOL_INFO } from '../data/schoolData';
+import { Notice } from '../data/schoolData';
+import { useSchoolData } from '../context/SchoolDataContext';
 import { PageId } from '../components/Navbar';
 
 interface NoticesPageProps {
@@ -22,14 +23,15 @@ interface NoticesPageProps {
 }
 
 export const NoticesPage: React.FC<NoticesPageProps> = ({ onNavigate, onOpenAdmissionModal }) => {
+  const { notices, schoolInfo } = useSchoolData();
   const [selectedCategory, setSelectedCategory] = useState<string>('All');
   const [searchQuery, setSearchQuery] = useState<string>('');
-  const [expandedNoticeId, setExpandedNoticeId] = useState<string>(NOTICES[0]?.id || '');
+  const [expandedNoticeId, setExpandedNoticeId] = useState<string>(notices[0]?.id || '');
   const [downloadSuccess, setDownloadSuccess] = useState<string | null>(null);
 
   const categories = ['All', 'Admission', 'Academic', 'Examination', 'Event', 'Holiday'];
 
-  const filteredNotices = NOTICES.filter((notice) => {
+  const filteredNotices = notices.filter((notice) => {
     const matchesCategory = selectedCategory === 'All' || notice.category === selectedCategory;
     const matchesSearch = 
       notice.title.toLowerCase().includes(searchQuery.toLowerCase()) ||

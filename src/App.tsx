@@ -10,10 +10,13 @@ import { FacultyPage } from './pages/FacultyPage';
 import { GalleryPage } from './pages/GalleryPage';
 import { NoticesPage } from './pages/NoticesPage';
 import { ContactPage } from './pages/ContactPage';
-import { Phone, Sparkles, MessageCircle, ArrowUp } from 'lucide-react';
-import { SCHOOL_INFO } from './data/schoolData';
+import { AdminLogin } from './pages/admin/AdminLogin';
+import { AdminDashboard } from './pages/admin/AdminDashboard';
+import { useSchoolData } from './context/SchoolDataContext';
+import { Phone, Sparkles } from 'lucide-react';
 
 export default function App() {
+  const { schoolInfo, isAuthenticated } = useSchoolData();
   const [currentPage, setCurrentPage] = useState<PageId>('home');
   const [isAdmissionModalOpen, setIsAdmissionModalOpen] = useState<boolean>(false);
   const [showFloatingBar, setShowFloatingBar] = useState<boolean>(false);
@@ -93,6 +96,15 @@ export default function App() {
             onOpenAdmissionModal={() => setIsAdmissionModalOpen(true)}
           />
         );
+      case 'admin':
+        return isAuthenticated ? (
+          <AdminDashboard onBackToWebsite={() => handleNavigate('home')} />
+        ) : (
+          <AdminLogin
+            onLoginSuccess={() => handleNavigate('admin')}
+            onBackToWebsite={() => handleNavigate('home')}
+          />
+        );
       default:
         return (
           <HomePage
@@ -102,6 +114,8 @@ export default function App() {
         );
     }
   };
+
+  const isAdminView = currentPage === 'admin';
 
   return (
     <div className="min-h-screen flex flex-col bg-slate-50 text-slate-800 selection:bg-blue-600 selection:text-white">
@@ -117,11 +131,13 @@ export default function App() {
         {renderCurrentPage()}
       </main>
 
-      {/* Footer */}
-      <Footer
-        onNavigate={handleNavigate}
-        onOpenAdmissionModal={() => setIsAdmissionModalOpen(true)}
-      />
+      {/* Footer (hidden on full-screen admin dashboard to prevent clutter, but shown on login screen) */}
+      {(!isAdminView || !isAuthenticated) && (
+        <Footer
+          onNavigate={handleNavigate}
+          onOpenAdmissionModal={() => setIsAdmissionModalOpen(true)}
+        />
+      )}
 
       {/* Admission Enquiry Modal */}
       <AdmissionModal
@@ -129,27 +145,29 @@ export default function App() {
         onClose={() => setIsAdmissionModalOpen(false)}
       />
 
-      {/* Mobile Floating Bottom Action Bar */}
-      <div className="sm:hidden fixed bottom-0 left-0 right-0 z-30 bg-white/95 backdrop-blur-md border-t border-slate-200 p-2.5 px-4 flex items-center justify-between gap-3 shadow-lg">
-        <a
-          href={`tel:${SCHOOL_INFO.phones[0]}`}
-          className="flex-1 py-2 rounded-lg bg-slate-100 text-slate-800 text-xs font-semibold flex items-center justify-center gap-1.5 border border-slate-300"
-        >
-          <Phone className="w-3.5 h-3.5 text-emerald-600" />
-          <span>Call School</span>
-        </a>
+      {/* Mobile Floating Bottom Action Bar (hidden on admin) */}
+      {!isAdminView && (
+        <div className="sm:hidden fixed bottom-0 left-0 right-0 z-30 bg-white/95 backdrop-blur-md border-t border-slate-200 p-2.5 px-4 flex items-center justify-between gap-3 shadow-lg">
+          <a
+            href={`tel:${schoolInfo.phones[0]}`}
+            className="flex-1 py-2 rounded-lg bg-slate-100 text-slate-800 text-xs font-semibold flex items-center justify-center gap-1.5 border border-slate-300"
+          >
+            <Phone className="w-3.5 h-3.5 text-emerald-600" />
+            <span>Call School</span>
+          </a>
 
-        <button
-          onClick={() => setIsAdmissionModalOpen(true)}
-          className="flex-1 py-2 rounded-lg bg-blue-800 text-white text-xs font-bold flex items-center justify-center gap-1.5 shadow-xs active:bg-blue-900"
-        >
-          <Sparkles className="w-3.5 h-3.5 text-amber-300" />
-          <span>Admission Enquiry</span>
-        </button>
-      </div>
+          <button
+            onClick={() => setIsAdmissionModalOpen(true)}
+            className="flex-1 py-2 rounded-lg bg-blue-800 text-white text-xs font-bold flex items-center justify-center gap-1.5 shadow-xs active:bg-blue-900"
+          >
+            <Sparkles className="w-3.5 h-3.5 text-amber-300" />
+            <span>Admission Enquiry</span>
+          </button>
+        </div>
+      )}
 
-      {/* Desktop Floating Admission Button (Visible after scrolling) */}
-      {showFloatingBar && (
+      {/* Desktop Floating Admission Button (Visible after scrolling, hidden on admin) */}
+      {!isAdminView && showFloatingBar && (
         <div className="hidden sm:block fixed bottom-6 right-6 z-30">
           <button
             onClick={() => setIsAdmissionModalOpen(true)}

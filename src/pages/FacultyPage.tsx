@@ -9,7 +9,8 @@ import {
   Briefcase,
   Sparkles
 } from 'lucide-react';
-import { FACULTY_MEMBERS, FacultyMember, SCHOOL_INFO } from '../data/schoolData';
+import { FacultyMember } from '../data/schoolData';
+import { useSchoolData } from '../context/SchoolDataContext';
 import { PageId } from '../components/Navbar';
 
 interface FacultyPageProps {
@@ -18,6 +19,7 @@ interface FacultyPageProps {
 }
 
 export const FacultyPage: React.FC<FacultyPageProps> = ({ onNavigate, onOpenAdmissionModal }) => {
+  const { faculty, schoolInfo } = useSchoolData();
   const [selectedDept, setSelectedDept] = useState<string>('All');
   const [searchQuery, setSearchQuery] = useState<string>('');
 
@@ -32,7 +34,7 @@ export const FacultyPage: React.FC<FacultyPageProps> = ({ onNavigate, onOpenAdmi
     'Sports & Arts'
   ];
 
-  const filteredFaculty = FACULTY_MEMBERS.filter((member) => {
+  const filteredFaculty = faculty.filter((member) => {
     const matchesDept = selectedDept === 'All' || member.department === selectedDept;
     const matchesSearch = 
       member.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
@@ -73,7 +75,7 @@ export const FacultyPage: React.FC<FacultyPageProps> = ({ onNavigate, onOpenAdmi
                 Academic Leadership
               </span>
               <h2 className="text-2xl font-bold text-white">
-                {SCHOOL_INFO.principalName}
+                {schoolInfo.principalName}
               </h2>
               <p className="text-amber-300 text-sm font-semibold">
                 Principal & Academic Director • M.Sc. (Physics), Ph.D., B.Ed.
@@ -203,7 +205,7 @@ export const FacultyPage: React.FC<FacultyPageProps> = ({ onNavigate, onOpenAdmi
             </p>
           </div>
           <a
-            href={`mailto:${SCHOOL_INFO.emails[0]}?subject=Faculty%20Application%20-%20Sri%20Durga%20Ji%20Public%20School`}
+            href={`mailto:${schoolInfo.emails[0]}?subject=Faculty%20Application%20-%20Sri%20Durga%20Ji%20Public%20School`}
             className="px-5 py-2.5 rounded-lg bg-blue-800 hover:bg-blue-900 text-white text-xs font-semibold shrink-0 transition-colors inline-flex items-center gap-2"
           >
             <Mail className="w-4 h-4" />

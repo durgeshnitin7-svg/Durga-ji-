@@ -14,7 +14,7 @@ import {
   X,
   Phone
 } from 'lucide-react';
-import { FACILITIES, SCHOOL_INFO } from '../data/schoolData';
+import { useSchoolData } from '../context/SchoolDataContext';
 import { PageId } from '../components/Navbar';
 
 interface FacilitiesPageProps {
@@ -23,6 +23,7 @@ interface FacilitiesPageProps {
 }
 
 export const FacilitiesPage: React.FC<FacilitiesPageProps> = ({ onNavigate, onOpenAdmissionModal }) => {
+  const { facilities, schoolInfo } = useSchoolData();
   const [selectedFacilityImage, setSelectedFacilityImage] = useState<string | null>(null);
 
   const getIcon = (name: string) => {
@@ -60,7 +61,7 @@ export const FacilitiesPage: React.FC<FacilitiesPageProps> = ({ onNavigate, onOp
       {/* Facilities Grid */}
       <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-          {FACILITIES.map((facility) => (
+          {facilities.map((facility) => (
             <div
               key={facility.id}
               className="bg-white rounded-2xl border border-slate-200 overflow-hidden shadow-xs hover:shadow-md transition-all flex flex-col"
@@ -168,7 +169,7 @@ export const FacilitiesPage: React.FC<FacilitiesPageProps> = ({ onNavigate, onOp
               Book Admission Consultation
             </button>
             <a
-              href={`tel:${SCHOOL_INFO.phones[0]}`}
+              href={`tel:${schoolInfo.phones[0]}`}
               className="px-5 py-3 rounded-xl bg-white/10 hover:bg-white/20 text-white font-medium text-sm border border-white/20 inline-flex items-center gap-2"
             >
               <Phone className="w-4 h-4" />

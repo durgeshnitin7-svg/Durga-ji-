@@ -9,7 +9,8 @@ import {
   Sparkles,
   School
 } from 'lucide-react';
-import { GALLERY_ITEMS, GalleryItem } from '../data/schoolData';
+import { GalleryItem } from '../data/schoolData';
+import { useSchoolData } from '../context/SchoolDataContext';
 import { PageId } from '../components/Navbar';
 
 interface GalleryPageProps {
@@ -18,14 +19,15 @@ interface GalleryPageProps {
 }
 
 export const GalleryPage: React.FC<GalleryPageProps> = ({ onNavigate, onOpenAdmissionModal }) => {
+  const { galleryItems } = useSchoolData();
   const [activeCategory, setActiveCategory] = useState<string>('All');
   const [activeImageIndex, setActiveImageIndex] = useState<number | null>(null);
 
   const categories = ['All', 'Campus', 'Classroom', 'Events', 'Activities', 'Sports'];
 
   const filteredItems = activeCategory === 'All'
-    ? GALLERY_ITEMS
-    : GALLERY_ITEMS.filter((item) => item.category === activeCategory);
+    ? galleryItems
+    : galleryItems.filter((item) => item.category === activeCategory);
 
   const handlePrev = (e: React.MouseEvent) => {
     e.stopPropagation();

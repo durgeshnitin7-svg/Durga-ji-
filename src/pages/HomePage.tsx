@@ -22,13 +22,8 @@ import {
   FlaskConical,
   X
 } from 'lucide-react';
-import { 
-  SCHOOL_INFO, 
-  NOTICES, 
-  FACILITIES, 
-  GALLERY_ITEMS, 
-  SCHOOL_STATS 
-} from '../data/schoolData';
+import { SCHOOL_STATS } from '../data/schoolData';
+import { useSchoolData } from '../context/SchoolDataContext';
 import { PageId } from '../components/Navbar';
 import { SchoolLogo } from '../components/SchoolLogo';
 
@@ -38,11 +33,12 @@ interface HomePageProps {
 }
 
 export const HomePage: React.FC<HomePageProps> = ({ onNavigate, onOpenAdmissionModal }) => {
+  const { schoolInfo, notices, facilities, galleryItems } = useSchoolData();
   const [selectedImage, setSelectedImage] = useState<string | null>(null);
 
-  const previewFacilities = FACILITIES.slice(0, 6);
-  const previewNotices = NOTICES.slice(0, 4);
-  const previewGallery = GALLERY_ITEMS.slice(0, 6);
+  const previewFacilities = facilities.slice(0, 6);
+  const previewNotices = notices.slice(0, 4);
+  const previewGallery = galleryItems.slice(0, 6);
 
   return (
     <div className="space-y-16 sm:space-y-20 pb-16">
@@ -60,9 +56,9 @@ export const HomePage: React.FC<HomePageProps> = ({ onNavigate, onOpenAdmissionM
                 <Sparkles className="w-3.5 h-3.5 text-amber-300" />
                 <span>Admissions Open 2025–26</span>
                 <span className="text-blue-400">•</span>
-                <span className="text-white">School Code: {SCHOOL_INFO.schoolCode}</span>
+                <span className="text-white">School Code: {schoolInfo.schoolCode}</span>
                 <span className="text-blue-400">•</span>
-                <span className="text-amber-200">Motto: {SCHOOL_INFO.motto}</span>
+                <span className="text-amber-200">Motto: {schoolInfo.motto}</span>
               </div>
 
               {/* Main Headline */}
@@ -139,10 +135,10 @@ export const HomePage: React.FC<HomePageProps> = ({ onNavigate, onOpenAdmissionM
                       <SchoolLogo size="sm" className="shrink-0" />
                       <div className="min-w-0 flex-1">
                         <span className="text-[10px] sm:text-[11px] font-bold uppercase tracking-wider text-blue-800 block truncate">
-                          Code: {SCHOOL_INFO.schoolCode} • Motto: {SCHOOL_INFO.motto}
+                          Code: {schoolInfo.schoolCode} • Motto: {schoolInfo.motto}
                         </span>
                         <h4 className="font-extrabold text-xs sm:text-sm text-slate-900 truncate uppercase">
-                          {SCHOOL_INFO.name}
+                          {schoolInfo.name}
                         </h4>
                         <p className="text-[11px] text-slate-600 truncate">
                           Sehada, Bilariaganj Road, Azamgarh (U.P.)
@@ -175,7 +171,7 @@ export const HomePage: React.FC<HomePageProps> = ({ onNavigate, onOpenAdmissionM
               <span>Latest Notice</span>
             </div>
             <p className="text-xs sm:text-sm font-medium text-slate-800 truncate">
-              {NOTICES[0]?.title}
+              {notices[0]?.title}
             </p>
           </div>
 
@@ -183,7 +179,7 @@ export const HomePage: React.FC<HomePageProps> = ({ onNavigate, onOpenAdmissionM
             onClick={() => onNavigate('notices')}
             className="text-xs font-semibold text-blue-700 hover:text-blue-900 shrink-0 inline-flex items-center gap-1 hover:underline"
           >
-            <span>View All Announcements ({NOTICES.length})</span>
+            <span>View All Announcements ({notices.length})</span>
             <ChevronRight className="w-4 h-4" />
           </button>
         </div>
@@ -269,7 +265,7 @@ export const HomePage: React.FC<HomePageProps> = ({ onNavigate, onOpenAdmissionM
                 />
                 <div>
                   <h4 className="font-bold text-white text-base">
-                    {SCHOOL_INFO.principalName}
+                    {schoolInfo.principalName}
                   </h4>
                   <p className="text-xs text-amber-300 font-medium">
                     Principal & Academic Director
@@ -317,7 +313,7 @@ export const HomePage: React.FC<HomePageProps> = ({ onNavigate, onOpenAdmissionM
             onClick={() => onNavigate('facilities')}
             className="text-sm font-semibold text-blue-800 hover:text-blue-950 inline-flex items-center gap-1.5 self-start sm:self-auto hover:underline"
           >
-            <span>View All Facilities ({FACILITIES.length})</span>
+            <span>View All Facilities ({facilities.length})</span>
             <ArrowRight className="w-4 h-4" />
           </button>
         </div>
@@ -447,7 +443,7 @@ export const HomePage: React.FC<HomePageProps> = ({ onNavigate, onOpenAdmissionM
             onClick={() => onNavigate('gallery')}
             className="text-sm font-semibold text-blue-800 hover:text-blue-950 inline-flex items-center gap-1.5 self-start sm:self-auto hover:underline"
           >
-            <span>View Full Gallery ({GALLERY_ITEMS.length})</span>
+            <span>View Full Gallery ({galleryItems.length})</span>
             <ArrowRight className="w-4 h-4" />
           </button>
         </div>
@@ -514,11 +510,11 @@ export const HomePage: React.FC<HomePageProps> = ({ onNavigate, onOpenAdmissionM
                 </div>
                 <div className="flex items-center gap-2">
                   <Phone className="w-4 h-4 text-emerald-400 shrink-0" />
-                  <span>{SCHOOL_INFO.phones[0]}</span>
+                  <span>{schoolInfo.phones[0]}</span>
                 </div>
                 <div className="flex items-center gap-2">
                   <Mail className="w-4 h-4 text-sky-400 shrink-0" />
-                  <span>{SCHOOL_INFO.emails[0]}</span>
+                  <span>{schoolInfo.emails[0]}</span>
                 </div>
               </div>
             </div>

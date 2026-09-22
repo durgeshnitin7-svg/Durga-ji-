@@ -11,7 +11,7 @@ import {
   ExternalLink,
   Heart
 } from 'lucide-react';
-import { SCHOOL_INFO } from '../data/schoolData';
+import { useSchoolData } from '../context/SchoolDataContext';
 import { SchoolLogo } from './SchoolLogo';
 import { PageId } from './Navbar';
 
@@ -21,6 +21,8 @@ interface FooterProps {
 }
 
 export const Footer: React.FC<FooterProps> = ({ onNavigate, onOpenAdmissionModal }) => {
+  const { schoolInfo } = useSchoolData();
+
   const scrollToTop = () => {
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
@@ -71,10 +73,10 @@ export const Footer: React.FC<FooterProps> = ({ onNavigate, onOpenAdmissionModal
               <SchoolLogo size="sm" className="shrink-0" />
               <div>
                 <h4 className="font-extrabold text-white text-base leading-tight uppercase">
-                  {SCHOOL_INFO.name}
+                  {schoolInfo.name}
                 </h4>
                 <p className="text-xs text-amber-400 font-semibold">
-                  School Code: {SCHOOL_INFO.schoolCode} • Sehada, Azamgarh
+                  School Code: {schoolInfo.schoolCode} • Sehada, Azamgarh
                 </p>
               </div>
             </div>
@@ -86,9 +88,9 @@ export const Footer: React.FC<FooterProps> = ({ onNavigate, onOpenAdmissionModal
             <div className="bg-slate-900/90 border border-slate-800 rounded-lg p-3 text-xs">
               <div className="text-amber-400 font-semibold mb-0.5">School Motto:</div>
               <div className="font-bold text-white tracking-wide uppercase text-xs">
-                "{SCHOOL_INFO.motto}"
+                "{schoolInfo.motto}"
               </div>
-              <div className="text-[11px] text-slate-400 mt-1">CBSE Affiliation / School Code: {SCHOOL_INFO.schoolCode}</div>
+              <div className="text-[11px] text-slate-400 mt-1">CBSE Affiliation / School Code: {schoolInfo.schoolCode}</div>
             </div>
           </div>
 
@@ -107,6 +109,7 @@ export const Footer: React.FC<FooterProps> = ({ onNavigate, onOpenAdmissionModal
                 { id: 'gallery', label: 'Photo & Event Gallery' },
                 { id: 'notices', label: 'Notice Board & Circulars' },
                 { id: 'contact', label: 'Contact & Location Map' },
+                { id: 'admin', label: 'Admin Login & Dashboard' }
               ].map((link) => (
                 <li key={link.id}>
                   <button
@@ -114,7 +117,11 @@ export const Footer: React.FC<FooterProps> = ({ onNavigate, onOpenAdmissionModal
                       onNavigate(link.id as PageId);
                       window.scrollTo({ top: 0, behavior: 'smooth' });
                     }}
-                    className="text-slate-400 hover:text-white transition-colors flex items-center gap-1.5"
+                    className={`transition-colors flex items-center gap-1.5 ${
+                      link.id === 'admin' 
+                        ? 'text-amber-400 font-bold hover:text-amber-300' 
+                        : 'text-slate-400 hover:text-white'
+                    }`}
                   >
                     <span className="text-blue-500">›</span>
                     <span>{link.label}</span>
@@ -161,7 +168,7 @@ export const Footer: React.FC<FooterProps> = ({ onNavigate, onOpenAdmissionModal
                 <Clock className="w-4 h-4 text-amber-400 shrink-0 mt-0.5" />
                 <div>
                   <div className="text-slate-200 font-medium">Administrative Office Hours</div>
-                  <div className="text-slate-400 text-[11px]">{SCHOOL_INFO.officeHours}</div>
+                  <div className="text-slate-400 text-[11px]">{schoolInfo.officeHours}</div>
                 </div>
               </div>
             </div>
@@ -177,7 +184,7 @@ export const Footer: React.FC<FooterProps> = ({ onNavigate, onOpenAdmissionModal
                 <MapPin className="w-4 h-4 text-blue-400 shrink-0 mt-0.5" />
                 <div>
                   <span className="text-slate-200 block font-medium">Campus Address:</span>
-                  <span>{SCHOOL_INFO.address.fullAddress}</span>
+                  <span>{schoolInfo.address.fullAddress}</span>
                 </div>
               </div>
 
@@ -185,12 +192,14 @@ export const Footer: React.FC<FooterProps> = ({ onNavigate, onOpenAdmissionModal
                 <Phone className="w-4 h-4 text-emerald-400 shrink-0 mt-0.5" />
                 <div>
                   <span className="text-slate-200 block font-medium">Helpline / Office:</span>
-                  <a href={`tel:${SCHOOL_INFO.phones[0]}`} className="hover:text-white block">
-                    {SCHOOL_INFO.phones[0]}
+                  <a href={`tel:${schoolInfo.phones[0]}`} className="hover:text-white block font-semibold text-emerald-300">
+                    {schoolInfo.phones[0]}
                   </a>
-                  <a href={`tel:${SCHOOL_INFO.phones[1]}`} className="hover:text-white block">
-                    {SCHOOL_INFO.phones[1]}
-                  </a>
+                  {schoolInfo.phones[1] && (
+                    <a href={`tel:${schoolInfo.phones[1]}`} className="hover:text-white block text-slate-400">
+                      {schoolInfo.phones[1]}
+                    </a>
+                  )}
                 </div>
               </div>
 
@@ -198,8 +207,8 @@ export const Footer: React.FC<FooterProps> = ({ onNavigate, onOpenAdmissionModal
                 <Mail className="w-4 h-4 text-sky-400 shrink-0 mt-0.5" />
                 <div>
                   <span className="text-slate-200 block font-medium">Email Address:</span>
-                  <a href={`mailto:${SCHOOL_INFO.emails[0]}`} className="hover:text-white block truncate max-w-[200px]">
-                    {SCHOOL_INFO.emails[0]}
+                  <a href={`mailto:${schoolInfo.emails[0]}`} className="hover:text-white block truncate max-w-[200px] text-sky-300">
+                    {schoolInfo.emails[0]}
                   </a>
                 </div>
               </div>
@@ -224,21 +233,31 @@ export const Footer: React.FC<FooterProps> = ({ onNavigate, onOpenAdmissionModal
         <div className="mt-12 pt-6 border-t border-slate-900 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-slate-500">
           <div className="text-center sm:text-left">
             <p>
-              © {new Date().getFullYear()} <strong>Sri Durga Ji Public School</strong>, Sehada, Azamgarh, Uttar Pradesh. All Rights Reserved.
+              © {new Date().getFullYear()} <strong>{schoolInfo.name}</strong>, Sehada, Azamgarh, Uttar Pradesh. All Rights Reserved.
             </p>
             <p className="text-[11px] text-slate-600 mt-0.5">
-              Affiliated to CBSE Pattern | Demo data configured for easy maintenance & customization.
+              Affiliated to CBSE Pattern (Code: {schoolInfo.schoolCode}) • Motto: "{schoolInfo.motto}"
             </p>
           </div>
 
-          <button
-            onClick={scrollToTop}
-            className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-slate-900 hover:bg-slate-800 text-slate-400 hover:text-white border border-slate-800 transition-colors"
-            aria-label="Scroll back to top"
-          >
-            <span>Back to Top</span>
-            <ArrowUp className="w-3.5 h-3.5" />
-          </button>
+          <div className="flex items-center gap-4">
+            <button
+              onClick={() => onNavigate('admin')}
+              className="flex items-center gap-1 text-amber-400 hover:text-amber-300 font-semibold transition-colors"
+            >
+              <ShieldCheck className="w-3.5 h-3.5" />
+              <span>Admin Portal</span>
+            </button>
+
+            <button
+              onClick={scrollToTop}
+              className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-slate-900 hover:bg-slate-800 text-slate-400 hover:text-white border border-slate-800 transition-colors"
+              aria-label="Scroll back to top"
+            >
+              <span>Back to Top</span>
+              <ArrowUp className="w-3.5 h-3.5" />
+            </button>
+          </div>
         </div>
       </div>
     </footer>

@@ -12,7 +12,7 @@ import {
   ExternalLink,
   MessageSquare
 } from 'lucide-react';
-import { SCHOOL_INFO } from '../data/schoolData';
+import { useSchoolData } from '../context/SchoolDataContext';
 import { PageId } from '../components/Navbar';
 import { SchoolLogo } from '../components/SchoolLogo';
 
@@ -22,6 +22,7 @@ interface ContactPageProps {
 }
 
 export const ContactPage: React.FC<ContactPageProps> = ({ onNavigate, onOpenAdmissionModal }) => {
+  const { schoolInfo, addEnquiry } = useSchoolData();
   const [formData, setFormData] = useState({
     name: '',
     phone: '',
@@ -39,6 +40,16 @@ export const ContactPage: React.FC<ContactPageProps> = ({ onNavigate, onOpenAdmi
       setErrorMsg('Please fill in your name, contact phone number, and query message.');
       return;
     }
+
+    // Persist to Admin Dashboard enquiries
+    addEnquiry({
+      studentName: formData.name + ' (Website Message)',
+      parentName: formData.name,
+      phone: formData.phone,
+      email: formData.email || undefined,
+      grade: formData.subject,
+      message: formData.message
+    });
 
     setErrorMsg('');
     setIsSubmitted(true);
@@ -83,10 +94,10 @@ export const ContactPage: React.FC<ContactPageProps> = ({ onNavigate, onOpenAdmi
                 <SchoolLogo size="sm" className="shrink-0" />
                 <div>
                   <h2 className="text-lg font-extrabold text-slate-900 leading-tight uppercase">
-                    {SCHOOL_INFO.name}
+                    {schoolInfo.name}
                   </h2>
                   <p className="text-xs text-amber-600 font-semibold">
-                    School Code: {SCHOOL_INFO.schoolCode} • Sehada, Azamgarh
+                    School Code: {schoolInfo.schoolCode} • Sehada, Azamgarh
                   </p>
                 </div>
               </div>
@@ -99,7 +110,7 @@ export const ContactPage: React.FC<ContactPageProps> = ({ onNavigate, onOpenAdmi
                 <div>
                   <h3 className="font-bold text-sm text-slate-900">Campus Address</h3>
                   <p className="text-xs text-slate-600 mt-0.5 leading-relaxed">
-                    {SCHOOL_INFO.address.fullAddress}
+                    {schoolInfo.address.fullAddress}
                   </p>
                   <p className="text-[11px] text-blue-700 font-medium mt-1">
                     Landmark: Sehada-Bilariaganj Road, District Azamgarh (U.P.)
@@ -117,22 +128,26 @@ export const ContactPage: React.FC<ContactPageProps> = ({ onNavigate, onOpenAdmi
                   <div className="space-y-1 mt-1 text-xs text-slate-600">
                     <div>
                       <span className="text-slate-400">Admission Office:</span>{' '}
-                      <a href={`tel:${SCHOOL_INFO.phones[0]}`} className="font-semibold text-blue-800 hover:underline">
-                        {SCHOOL_INFO.phones[0]}
+                      <a href={`tel:${schoolInfo.phones[0]}`} className="font-semibold text-blue-800 hover:underline">
+                        {schoolInfo.phones[0]}
                       </a>
                     </div>
-                    <div>
-                      <span className="text-slate-400">General Enquiry:</span>{' '}
-                      <a href={`tel:${SCHOOL_INFO.phones[1]}`} className="font-semibold text-blue-800 hover:underline">
-                        {SCHOOL_INFO.phones[1]}
-                      </a>
-                    </div>
-                    <div>
-                      <span className="text-slate-400">Admin Landline:</span>{' '}
-                      <a href={`tel:${SCHOOL_INFO.phones[2]}`} className="font-semibold text-blue-800 hover:underline">
-                        {SCHOOL_INFO.phones[2]}
-                      </a>
-                    </div>
+                    {schoolInfo.phones[1] && (
+                      <div>
+                        <span className="text-slate-400">General Enquiry:</span>{' '}
+                        <a href={`tel:${schoolInfo.phones[1]}`} className="font-semibold text-blue-800 hover:underline">
+                          {schoolInfo.phones[1]}
+                        </a>
+                      </div>
+                    )}
+                    {schoolInfo.phones[2] && (
+                      <div>
+                        <span className="text-slate-400">Admin Landline:</span>{' '}
+                        <a href={`tel:${schoolInfo.phones[2]}`} className="font-semibold text-blue-800 hover:underline">
+                          {schoolInfo.phones[2]}
+                        </a>
+                      </div>
+                    )}
                   </div>
                 </div>
               </div>
@@ -146,15 +161,17 @@ export const ContactPage: React.FC<ContactPageProps> = ({ onNavigate, onOpenAdmi
                   <h3 className="font-bold text-sm text-slate-900">Official Email</h3>
                   <div className="space-y-1 mt-1 text-xs">
                     <div>
-                      <a href={`mailto:${SCHOOL_INFO.emails[0]}`} className="text-blue-800 hover:underline block truncate">
-                        {SCHOOL_INFO.emails[0]}
+                      <a href={`mailto:${schoolInfo.emails[0]}`} className="text-blue-800 hover:underline block truncate">
+                        {schoolInfo.emails[0]}
                       </a>
                     </div>
-                    <div>
-                      <a href={`mailto:${SCHOOL_INFO.emails[1]}`} className="text-blue-800 hover:underline block truncate">
-                        {SCHOOL_INFO.emails[1]}
-                      </a>
-                    </div>
+                    {schoolInfo.emails[1] && (
+                      <div>
+                        <a href={`mailto:${schoolInfo.emails[1]}`} className="text-blue-800 hover:underline block truncate">
+                          {schoolInfo.emails[1]}
+                        </a>
+                      </div>
+                    )}
                   </div>
                 </div>
               </div>
@@ -167,10 +184,10 @@ export const ContactPage: React.FC<ContactPageProps> = ({ onNavigate, onOpenAdmi
                 <div>
                   <h3 className="font-bold text-sm text-slate-900">Working & Visiting Hours</h3>
                   <p className="text-xs text-slate-600 mt-0.5">
-                    <strong>Admin Office:</strong> {SCHOOL_INFO.officeHours}
+                    <strong>Admin Office:</strong> {schoolInfo.officeHours}
                   </p>
                   <p className="text-xs text-slate-600 mt-0.5">
-                    <strong>Principal Meeting:</strong> {SCHOOL_INFO.visitingHours}
+                    <strong>Principal Meeting:</strong> {schoolInfo.visitingHours}
                   </p>
                   <p className="text-[11px] text-slate-400 mt-1">
                     (Sundays and Gazetted holidays closed)
@@ -215,7 +232,7 @@ export const ContactPage: React.FC<ContactPageProps> = ({ onNavigate, onOpenAdmi
                     Message Sent Successfully!
                   </h3>
                   <p className="text-xs sm:text-sm text-slate-600 max-w-md mx-auto leading-relaxed">
-                    Thank you for reaching out to <strong>{SCHOOL_INFO.name}, Sehada</strong>. Our team has received your query and will reply via phone or email soon.
+                    Thank you for reaching out to <strong>{schoolInfo.name}, Sehada</strong>. Our team has received your query and will reply via phone or email soon.
                   </p>
 
                   <div className="pt-4">

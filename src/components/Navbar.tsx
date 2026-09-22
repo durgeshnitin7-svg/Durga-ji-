@@ -11,12 +11,13 @@ import {
   ChevronRight,
   BookOpen,
   Clock,
-  Award
+  Award,
+  ShieldCheck
 } from 'lucide-react';
-import { SCHOOL_INFO } from '../data/schoolData';
+import { useSchoolData } from '../context/SchoolDataContext';
 import { SchoolLogo } from './SchoolLogo';
 
-export type PageId = 'home' | 'about' | 'academics' | 'facilities' | 'faculty' | 'gallery' | 'notices' | 'contact';
+export type PageId = 'home' | 'about' | 'academics' | 'facilities' | 'faculty' | 'gallery' | 'notices' | 'contact' | 'admin';
 
 interface NavbarProps {
   currentPage: PageId;
@@ -29,6 +30,7 @@ export const Navbar: React.FC<NavbarProps> = ({
   onNavigate,
   onOpenAdmissionModal
 }) => {
+  const { schoolInfo, isAuthenticated } = useSchoolData();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
 
@@ -69,19 +71,28 @@ export const Navbar: React.FC<NavbarProps> = ({
         <div className="sm:hidden px-3 py-1.5 flex items-center justify-between text-[11px] bg-slate-950 text-slate-300">
           <div className="flex items-center gap-1.5 truncate">
             <span className="px-1.5 py-0.5 rounded bg-amber-400 text-slate-950 font-bold text-[9px] uppercase tracking-wider">
-              Code: {SCHOOL_INFO.schoolCode}
+              Code: {schoolInfo.schoolCode}
             </span>
             <span className="truncate font-medium text-amber-300">
-              {SCHOOL_INFO.motto}
+              {schoolInfo.motto}
             </span>
           </div>
-          <a
-            href={`tel:${SCHOOL_INFO.phones[0]}`}
-            className="flex items-center gap-1 font-semibold text-emerald-400 shrink-0 ml-2"
-          >
-            <Phone className="w-3 h-3" />
-            <span>Call</span>
-          </a>
+          <div className="flex items-center gap-2">
+            <button
+              onClick={() => handleNavClick('admin')}
+              className="flex items-center gap-1 text-[10px] font-bold text-amber-400 bg-amber-400/10 px-2 py-0.5 rounded border border-amber-400/30"
+            >
+              <ShieldCheck className="w-3 h-3" />
+              <span>Admin</span>
+            </button>
+            <a
+              href={`tel:${schoolInfo.phones[0]}`}
+              className="flex items-center gap-1 font-semibold text-emerald-400 shrink-0"
+            >
+              <Phone className="w-3 h-3" />
+              <span>Call</span>
+            </a>
+          </div>
         </div>
 
         {/* Tablet & Desktop Top Bar */}
@@ -90,36 +101,48 @@ export const Navbar: React.FC<NavbarProps> = ({
             <div className="flex items-center gap-3 lg:gap-4 flex-wrap text-xs">
               <div className="flex items-center gap-1.5 text-amber-300 font-semibold">
                 <Award className="w-3.5 h-3.5 text-amber-400 shrink-0" />
-                <span>School Code: {SCHOOL_INFO.schoolCode}</span>
+                <span>School Code: {schoolInfo.schoolCode}</span>
               </div>
               <span className="text-slate-700 hidden lg:inline">•</span>
               <div className="flex items-center gap-1.5 text-slate-300">
                 <MapPin className="w-3.5 h-3.5 text-blue-400 shrink-0" />
-                <span>{SCHOOL_INFO.address.fullAddress}</span>
+                <span>{schoolInfo.address.fullAddress}</span>
               </div>
               <span className="text-slate-700 hidden lg:inline">•</span>
               <div className="flex items-center gap-1.5 text-emerald-400 font-medium hidden md:flex">
                 <GraduationCap className="w-3.5 h-3.5" />
-                <span>Motto: "{SCHOOL_INFO.motto}"</span>
+                <span>Motto: "{schoolInfo.motto}"</span>
               </div>
             </div>
 
             <div className="flex items-center gap-4 text-xs">
               <a 
-                href={`tel:${SCHOOL_INFO.phones[0]}`}
+                href={`tel:${schoolInfo.phones[0]}`}
                 className="flex items-center gap-1.5 text-slate-300 hover:text-white transition-colors"
               >
                 <Phone className="w-3.5 h-3.5 text-emerald-400" />
-                <span>{SCHOOL_INFO.phones[0]}</span>
+                <span>{schoolInfo.phones[0]}</span>
               </a>
               <span className="text-slate-700">|</span>
               <a 
-                href={`mailto:${SCHOOL_INFO.emails[0]}`}
+                href={`mailto:${schoolInfo.emails[0]}`}
                 className="flex items-center gap-1.5 text-slate-300 hover:text-white transition-colors"
               >
                 <Mail className="w-3.5 h-3.5 text-sky-400" />
-                <span>{SCHOOL_INFO.emails[0]}</span>
+                <span>{schoolInfo.emails[0]}</span>
               </a>
+              <span className="text-slate-700">|</span>
+              <button
+                onClick={() => handleNavClick('admin')}
+                className={`flex items-center gap-1 font-bold text-xs px-2.5 py-0.5 rounded transition-all ${
+                  currentPage === 'admin' 
+                    ? 'bg-amber-400 text-slate-950 shadow-xs' 
+                    : 'text-amber-300 hover:text-amber-200 bg-amber-400/10 border border-amber-400/30'
+                }`}
+              >
+                <ShieldCheck className="w-3.5 h-3.5 text-amber-400" />
+                <span>{isAuthenticated ? 'Admin Dashboard' : 'Admin Login'}</span>
+              </button>
             </div>
           </div>
         </div>
@@ -139,10 +162,10 @@ export const Navbar: React.FC<NavbarProps> = ({
             <div>
               <div className="flex items-center gap-2 flex-wrap">
                 <h1 className="font-extrabold text-lg sm:text-2xl text-blue-950 tracking-tight leading-tight group-hover:text-blue-800 transition-colors uppercase">
-                  {SCHOOL_INFO.name}
+                  {schoolInfo.name}
                 </h1>
                 <span className="hidden xl:inline-block px-2 py-0.5 rounded bg-blue-100 text-blue-900 font-bold text-[10px] tracking-wide border border-blue-200">
-                  CODE: {SCHOOL_INFO.schoolCode}
+                  CODE: {schoolInfo.schoolCode}
                 </span>
               </div>
 
@@ -150,7 +173,7 @@ export const Navbar: React.FC<NavbarProps> = ({
                 <span className="text-slate-700 font-semibold">Sehada, Azamgarh (U.P.)</span>
                 <span className="inline-block w-1 h-1 rounded-full bg-slate-400"></span>
                 <span className="text-amber-700 font-semibold text-xs sm:text-xs">
-                  Motto: {SCHOOL_INFO.motto}
+                  Motto: {schoolInfo.motto}
                 </span>
                 <span className="inline-block w-1 h-1 rounded-full bg-slate-400 hidden sm:inline-block"></span>
                 <span className="text-blue-700 text-xs hidden sm:inline font-medium">
@@ -261,15 +284,25 @@ export const Navbar: React.FC<NavbarProps> = ({
             <div className="pt-4 border-t border-slate-200 space-y-2 text-xs text-slate-600">
               <div className="flex items-center gap-2">
                 <Phone className="w-4 h-4 text-blue-700" />
-                <span>{SCHOOL_INFO.phones[0]}</span>
+                <span>{schoolInfo.phones[0]}</span>
               </div>
               <div className="flex items-center gap-2">
                 <Mail className="w-4 h-4 text-blue-700" />
-                <span>{SCHOOL_INFO.emails[0]}</span>
+                <span>{schoolInfo.emails[0]}</span>
               </div>
               <div className="flex items-center gap-2">
                 <MapPin className="w-4 h-4 text-blue-700" />
-                <span>Sehada, Azamgarh, Uttar Pradesh</span>
+                <span>{schoolInfo.address.fullAddress}</span>
+              </div>
+
+              <div className="pt-2">
+                <button
+                  onClick={() => handleNavClick('admin')}
+                  className="w-full flex items-center justify-center gap-2 py-2 px-3 rounded-lg bg-slate-900 text-amber-400 font-bold text-xs border border-amber-400/30"
+                >
+                  <ShieldCheck className="w-4 h-4 text-amber-400" />
+                  <span>{isAuthenticated ? 'Open Admin Dashboard' : 'Admin Login (Password & Captcha)'}</span>
+                </button>
               </div>
             </div>
           </div>

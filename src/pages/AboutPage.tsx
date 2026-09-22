@@ -13,7 +13,7 @@ import {
   Calendar,
   Sparkles
 } from 'lucide-react';
-import { SCHOOL_INFO } from '../data/schoolData';
+import { useSchoolData } from '../context/SchoolDataContext';
 import { PageId } from '../components/Navbar';
 import { SchoolLogo } from '../components/SchoolLogo';
 
@@ -23,6 +23,8 @@ interface AboutPageProps {
 }
 
 export const AboutPage: React.FC<AboutPageProps> = ({ onNavigate, onOpenAdmissionModal }) => {
+  const { schoolInfo } = useSchoolData();
+
   return (
     <div className="space-y-12 sm:space-y-16 pb-16">
       {/* Page Header */}
@@ -31,13 +33,13 @@ export const AboutPage: React.FC<AboutPageProps> = ({ onNavigate, onOpenAdmissio
           <div>
             <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-blue-800/80 border border-blue-600/50 text-xs font-semibold text-amber-300 mb-3">
               <School className="w-3.5 h-3.5" />
-              <span>School Code: {SCHOOL_INFO.schoolCode} • Estd. {SCHOOL_INFO.established}</span>
+              <span>School Code: {schoolInfo.schoolCode} • Estd. {schoolInfo.established}</span>
             </div>
             <h1 className="text-3xl sm:text-4xl lg:text-5xl font-extrabold text-white tracking-tight mb-2 uppercase">
-              About {SCHOOL_INFO.name}
+              About {schoolInfo.name}
             </h1>
             <p className="text-amber-300 font-semibold text-sm mb-3">
-              Motto: "{SCHOOL_INFO.motto}" • Sehada, Azamgarh, Uttar Pradesh
+              Motto: "{schoolInfo.motto}" • Sehada, Azamgarh, Uttar Pradesh
             </p>
             <p className="text-slate-300 text-sm sm:text-base max-w-2xl leading-relaxed">
               Founded with the noble mission to impart quality, affordable, and value-based disciplined education to the youth of Sehada, Azamgarh, and surrounding Purvanchal regions.
@@ -59,19 +61,19 @@ export const AboutPage: React.FC<AboutPageProps> = ({ onNavigate, onOpenAdmissio
           <div className="lg:col-span-7 space-y-4">
             <div className="inline-flex items-center gap-2 text-blue-800 font-bold text-xs uppercase tracking-wider">
               <span className="w-2 h-2 rounded-full bg-blue-700"></span>
-              <span>Heritage & Foundation • Code: {SCHOOL_INFO.schoolCode}</span>
+              <span>Heritage & Foundation • Code: {schoolInfo.schoolCode}</span>
             </div>
             <h2 className="text-2xl sm:text-3xl font-bold text-slate-900 leading-snug">
               A Beacon of Knowledge & Discipline in Sehada, Azamgarh
             </h2>
             <p className="text-slate-600 text-sm sm:text-base leading-relaxed">
-              <strong>{SCHOOL_INFO.name}</strong> was founded in 2002 by visionary educationists who perceived the urgent necessity for a premier English medium, value-oriented school in the Sehada region of Azamgarh district, Uttar Pradesh.
+              <strong>{schoolInfo.name}</strong> was founded in {schoolInfo.established} by visionary educationists who perceived the urgent necessity for a premier English medium, value-oriented school in the Sehada region of Azamgarh district, Uttar Pradesh.
             </p>
             <p className="text-slate-600 text-sm leading-relaxed">
               Over the last two decades, the institution has flourished into a vibrant learning community with more than 1,500 students from pre-primary through senior grades. Our lush, expansive campus shields children from urban congestion, providing an ideal atmosphere for rigorous academic inquiry, sports training, and character cultivation.
             </p>
             <p className="text-slate-600 text-sm leading-relaxed">
-              We take pride in maintaining an admirable academic record with 100% board examination pass rates, while cultivating humility, social respect, and civic consciousness embodied by our school motto: <strong>"{SCHOOL_INFO.motto}"</strong>.
+              We take pride in maintaining an admirable academic record with 100% board examination pass rates, while cultivating humility, social respect, and civic consciousness embodied by our school motto: <strong>"{schoolInfo.motto}"</strong>.
             </p>
 
             <div className="pt-2 flex flex-wrap gap-4">
@@ -195,7 +197,7 @@ export const AboutPage: React.FC<AboutPageProps> = ({ onNavigate, onOpenAdmissio
                 className="w-40 h-40 sm:w-48 sm:h-48 rounded-2xl object-cover mx-auto shadow-md border-4 border-blue-50"
               />
               <h3 className="text-lg font-bold text-slate-900 mt-4">
-                {SCHOOL_INFO.principalName}
+                {schoolInfo.principalName}
               </h3>
               <p className="text-xs font-semibold text-blue-800">
                 Principal & Academic Director
@@ -230,7 +232,7 @@ export const AboutPage: React.FC<AboutPageProps> = ({ onNavigate, onOpenAdmissio
               <div className="pt-2 text-xs font-semibold text-slate-800">
                 Warm regards,
                 <br />
-                <span className="text-blue-900 font-bold">{SCHOOL_INFO.principalName}</span>
+                <span className="text-blue-900 font-bold">{schoolInfo.principalName}</span>
               </div>
             </div>
           </div>
@@ -248,7 +250,7 @@ export const AboutPage: React.FC<AboutPageProps> = ({ onNavigate, onOpenAdmissio
               </h3>
             </div>
             <div className="text-left sm:text-right">
-              <div className="font-bold text-slate-900 text-sm">{SCHOOL_INFO.managerName}</div>
+              <div className="font-bold text-slate-900 text-sm">{schoolInfo.managerName}</div>
               <div className="text-xs text-slate-500">Manager & Founder Trustee</div>
             </div>
           </div>
@@ -272,20 +274,20 @@ export const AboutPage: React.FC<AboutPageProps> = ({ onNavigate, onOpenAdmissio
 
           <div className="divide-y divide-slate-100 text-xs sm:text-sm">
             {[
-              { field: "Name of the School", value: SCHOOL_INFO.name },
-              { field: "Affiliation Status", value: SCHOOL_INFO.affiliation },
-              { field: "Affiliation / Registration No.", value: SCHOOL_INFO.affiliationNumber },
-              { field: "School Code", value: SCHOOL_INFO.schoolCode },
-              { field: "Year of Establishment", value: SCHOOL_INFO.established },
-              { field: "Complete Postal Address", value: SCHOOL_INFO.address.fullAddress },
+              { field: "Name of the School", value: schoolInfo.name },
+              { field: "Affiliation Status", value: schoolInfo.affiliation },
+              { field: "Affiliation / Registration No.", value: schoolInfo.affiliationNumber },
+              { field: "School Code", value: schoolInfo.schoolCode },
+              { field: "Year of Establishment", value: schoolInfo.established },
+              { field: "Complete Postal Address", value: schoolInfo.address.fullAddress },
               { field: "District & State", value: "Azamgarh, Uttar Pradesh - 276125" },
               { field: "Medium of Instruction", value: "English (with equal emphasis on Hindi & Sanskrit)" },
               { field: "Type of School", value: "Independent, Co-Educational Day School" },
               { field: "Classes Catered", value: "Pre-Primary (Nursery, LKG, UKG) to Class XII" },
               { field: "Academic Session Period", value: "April to March" },
-              { field: "Contact Telephone Numbers", value: SCHOOL_INFO.phones.join(" / ") },
-              { field: "Official Email Address", value: SCHOOL_INFO.emails.join(", ") },
-              { field: "Name of the Principal", value: SCHOOL_INFO.principalName },
+              { field: "Contact Telephone Numbers", value: schoolInfo.phones.join(" / ") },
+              { field: "Official Email Address", value: schoolInfo.emails.join(", ") },
+              { field: "Name of the Principal", value: schoolInfo.principalName },
               { field: "Campus Area", value: "5+ Acres of lush green boundary campus" }
             ].map((row, idx) => (
               <div key={idx} className="grid grid-cols-1 sm:grid-cols-3 p-3.5 sm:px-6 hover:bg-slate-50 transition-colors">
